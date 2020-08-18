@@ -1,0 +1,7 @@
+add_library()
+
+target_compile_options()
+
+add_executable()
+
+target_link_libraries()
