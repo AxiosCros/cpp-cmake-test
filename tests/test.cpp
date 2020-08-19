@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+// #include <darabonba/core.hpp>
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
@@ -6,5 +7,9 @@ int main(int argc, char **argv) {
 }
 
 TEST(core, basic) {
+  ASSERT_EQ(0, 0);
+}
+
+TEST(core, basic2) {
   ASSERT_EQ(0, 0);
 }

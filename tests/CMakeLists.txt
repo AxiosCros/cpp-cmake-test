@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(darabonba_core LANGUAGES CXX)
 
+include(CTest)
+
 set(GOOGLE_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Download and unpack googletest at configure time
@@ -21,12 +23,14 @@ add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 
 add_executable(cpp_test "")
 
-add_library(darabonba_core ../core/core.cpp ../core/core.hpp)
+include_directories("../core/include/")
 
 target_sources(cpp_test PRIVATE test.cpp)
+
 target_link_libraries(cpp_test
   PRIVATE
     darabonba_core
+    gtest
     gtest_main
 )
 
