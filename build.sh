@@ -3,6 +3,6 @@
 rm -rf build
 mkdir -p build
 cd build/
-cmake ..
+cmake -DENABLE_UNIT_TESTS=ON ..
 cmake --build .
-# ./main
+./cpp_test

@@ -28,32 +28,43 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-include(GNUInstallDirs)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+add_library(core SHARED "")
 
-# Offer the user the choice of overriding the installation directories
-set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
-set(INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR} CACHE PATH "Installation directory for executables")
-set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Installation directory for header files")
-if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKEDIR CMake)
-else()
-  set(DEF_INSTALL_CMAKEDIR share/cmake/${PROJECT_NAME})
+target_sources(core
+        PRIVATE
+        src/core.cpp
+        src/main.cpp
+        include/core.hpp)
+
+target_include_directories(core
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set_target_properties(core
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        SOVERSION ${PROJECT_VERSION_MAJOR}
+        OUTPUT_NAME "credential"
+        DEBUG_POSTFIX "_d"
+        PUBLIC_HEADER "core.hpp"
+        MACOSX_RPATH ON
+        WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+find_package(boost REQUIRED)
+add_subdirectory(external/libraries)
+target_link_libraries(core PRIVATE ordered_map)
+
+if(ENABLE_UNIT_TESTS)
+  include(CTest)
+  enable_testing()
+  add_subdirectory(external/libraries_dev)
+  add_executable(cpp_test
+            tests/main.cpp)
+  target_link_libraries(cpp_test
+            PRIVATE
+            core
+            gtest_main
+            gmock_main)
+  add_test(NAME google_test
+            COMMAND $<TARGET_FILE:cpp_test>)
 endif()
-set(INSTALL_CMAKEDIR ${DEF_INSTALL_CMAKEDIR} CACHE PATH "Installation directory for CMake files")
-
-# Report to user
-foreach(p LIB BIN INCLUDE CMAKE)
-  file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path )
-  message(STATUS "Installing ${p} components to ${_path}")
-  unset(_path)
-endforeach()
-
-add_subdirectory(core)
-
-# if(ENABLE_UNIT_TESTS)
-  # enable_testing()
-  # add_subdirectory(tests)
-# endif()
