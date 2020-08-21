@@ -1,7 +1,5 @@
 find_package(ordered-map ${ordered-map_MINIMUM_REQUIRED} QUIET COMPONENTS ${ordered-map_COMPONENTS_REQUIRED})
 
-project(download_ordered_map VERSION "1.0.0")
-
 if(ordered-map_FOUND)
   message(STATUS "Found ordered-map version ${ordered-map_MAJOR_VERSION}.${ordered-map_MINOR_VERSION}.${ordered-map_SUBMINOR_VERSION}")
   add_library(ordered-map_external INTERFACE)

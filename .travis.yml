@@ -10,11 +10,7 @@ env:
   - CPLUS_INCLUDE_PATH="/usr/local/include/:/usr/lib/:/usr/include/"
 
 script:
-  - mkdir -p build
-  - cd build/
-  - cmake -DENABLE_UNIT_TESTS=ON ..
-  - cmake --build .
-  - ./cpp_test
+  - sh scripts/build.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -51,7 +51,7 @@ set_target_properties(core
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_subdirectory(external/libraries)
-target_link_libraries(core PRIVATE ordered_map)
+# target_link_libraries(core PUBLIC ordered_map curlpp)
 
 if(ENABLE_UNIT_TESTS)
   include(CTest)
@@ -62,6 +62,7 @@ if(ENABLE_UNIT_TESTS)
   target_link_libraries(tests
             PRIVATE
             core
+            curlpp
             gtest_main
             gmock_main)
   add_test(NAME google_test

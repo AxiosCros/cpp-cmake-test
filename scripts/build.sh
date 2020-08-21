@@ -12,7 +12,7 @@ main() {
         error_exit "Failed to cmake."
     }
 
-    make || {
+    cmake --build . || {
         error_exit "Failed to make."
     }
 
