@@ -1,11 +1,9 @@
 #include "core.hpp"
 #include "gtest/gtest.h"
 
-#ifdef CURLPP_CURL_HANDLE_HPP
-#include "curlpp/Easy.hpp"
-#include "curlpp/Options.hpp"
-#include "curlpp/cURLpp.hpp"
-#endif
+#include <curlpp/Easy.hpp>
+#include <curlpp/Options.hpp>
+#include <curlpp/cURLpp.hpp>
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
@@ -46,5 +44,5 @@ TEST(core, curlpp) {
   }
   #else
   std::cout << "required curlpp failed" << std::endl;
-#endif
+  #endif
 }

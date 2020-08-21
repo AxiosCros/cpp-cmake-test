@@ -5,8 +5,8 @@ basepath=$(cd `dirname $0`/../; pwd)
 cd $basepath/
 
 main() {
-    mkdir -p build/
-    cd build/
+    mkdir -p cmake_build/
+    cd cmake_build/
     rm -rf ./*
     cmake .. -DENABLE_UNIT_TESTS=ON || {
         error_exit "Failed to cmake."

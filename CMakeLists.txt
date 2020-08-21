@@ -51,7 +51,17 @@ set_target_properties(core
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_subdirectory(external/libraries)
-# target_link_libraries(core PUBLIC ordered_map curlpp)
+# add_subdirectory(external/libraries_dev)
+# target_link_libraries(core PRIVATE ordered_map curlpp)
+# target_link_libraries(core PRIVATE curlpp)
+# message(STATUS "---------------------------------------------------------------------")
+# find_library(FIND_CURLPP NAMES curlpp)
+# find_library(FIND_GTEST NAMES gtest_main)
+# message(STATUS "${FIND_CURLPP}")
+# message(STATUS "${FIND_GTEST}")
+# include_directories(cmake_build/_deps/_curlpp-src/include)
+
+# message(STATUS "---------------------------------------------------------------------")
 
 if(ENABLE_UNIT_TESTS)
   include(CTest)
@@ -64,7 +74,13 @@ if(ENABLE_UNIT_TESTS)
             core
             curlpp
             gtest_main
-            gmock_main)
+            gmock_main
+  )
+  message(STATUS "---------------------------------------------------------------------")
+  find_library(FIND_CURLPP NAMES curlpp)
+  message(STATUS "${FIND_CURLPP}")
+  message(STATUS "---------------------------------------------------------------------")
+  target_include_directories(tests PRIVATE cmake_build/_deps/_curlpp-src/include)
   add_test(NAME google_test
             COMMAND $<TARGET_FILE:tests>)
 endif()
