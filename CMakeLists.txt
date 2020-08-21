@@ -50,7 +50,6 @@ set_target_properties(core
         MACOSX_RPATH ON
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-find_package(boost REQUIRED)
 add_subdirectory(external/libraries)
 target_link_libraries(core PRIVATE ordered_map)
 
@@ -58,13 +57,13 @@ if(ENABLE_UNIT_TESTS)
   include(CTest)
   enable_testing()
   add_subdirectory(external/libraries_dev)
-  add_executable(cpp_test
+  add_executable(tests
             tests/main.cpp)
-  target_link_libraries(cpp_test
+  target_link_libraries(tests
             PRIVATE
             core
             gtest_main
             gmock_main)
   add_test(NAME google_test
-            COMMAND $<TARGET_FILE:cpp_test>)
+            COMMAND $<TARGET_FILE:tests>)
 endif()
