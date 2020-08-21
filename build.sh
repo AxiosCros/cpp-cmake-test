@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf build
+# rm -rf build
 mkdir -p build
 cd build/
 cmake -DENABLE_UNIT_TESTS=ON ..

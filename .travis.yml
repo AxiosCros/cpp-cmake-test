@@ -1,0 +1,20 @@
+dist: xenial
+sudo: require
+language: cpp
+compiler: gcc
+
+install:
+  - sudo apt-get install boost libboost-all-dev uuid-dev
+
+env:
+  - CPLUS_INCLUDE_PATH="/usr/local/include/:/usr/lib/:/usr/include/"
+
+script:
+  - mkdir -p build
+  - cd build/
+  - cmake -DENABLE_UNIT_TESTS=ON ..
+  - cmake --build .
+  - ./cpp_test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
