@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(darabonba VERSION "0.1.0")
+project(cpp-cmake-test VERSION "0.1.0")
 
 # <<< General set up >>>
 set(CMAKE_CXX_STANDARD 11)
@@ -28,40 +28,29 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-add_library(core SHARED "")
+add_library(${PROJECT_NAME} SHARED "")
 
-target_sources(core
+target_sources(${PROJECT_NAME}
         PRIVATE
         src/core.cpp
         src/main.cpp
         include/core.hpp)
 
-target_include_directories(core
+target_include_directories(${PROJECT_NAME}
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set_target_properties(core
+set_target_properties(${PROJECT_NAME}
         PROPERTIES
         POSITION_INDEPENDENT_CODE 1
         SOVERSION ${PROJECT_VERSION_MAJOR}
-        OUTPUT_NAME "credential"
+        OUTPUT_NAME "core"
         DEBUG_POSTFIX "_d"
         PUBLIC_HEADER "core.hpp"
         MACOSX_RPATH ON
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_subdirectory(external/libraries)
-# add_subdirectory(external/libraries_dev)
-# target_link_libraries(core PRIVATE ordered_map curlpp)
-# target_link_libraries(core PRIVATE curlpp)
-# message(STATUS "---------------------------------------------------------------------")
-# find_library(FIND_CURLPP NAMES curlpp)
-# find_library(FIND_GTEST NAMES gtest_main)
-# message(STATUS "${FIND_CURLPP}")
-# message(STATUS "${FIND_GTEST}")
-# include_directories(cmake_build/_deps/_curlpp-src/include)
-
-# message(STATUS "---------------------------------------------------------------------")
 
 if(ENABLE_UNIT_TESTS)
   include(CTest)
@@ -71,7 +60,7 @@ if(ENABLE_UNIT_TESTS)
             tests/main.cpp)
   target_link_libraries(tests
             PRIVATE
-            core
+            ${PROJECT_NAME}
             curlpp
             gtest_main
             gmock_main
